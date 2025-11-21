@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Verde Speranza - Luppino: tradizione di 3 generazioni nella produzione di prodotti IGP. Olio d'oliva e agrumi di qualità.">
-    <title>Verde Speranza - Luppino | Tradizione e Qualità dal 1950</title>
+    <title>Verde Speranza | Tradizione e Qualità dal 1950</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -23,7 +23,9 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="logo">
-                <a href="#home">Verde Speranza</a>
+                <a href="#home">
+                    <img src="public/logo_verde_speranza.svg" alt="Verde Speranza" class="logo-image">
+                </a>
             </div>
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="#home" class="nav-link">Home</a></li>
@@ -204,9 +206,14 @@
 
     <!-- Footer -->
     <footer class="footer">
+        <svg class="footer-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path fill="var(--azzurro-scuro)" d="M0,60 Q180,20 360,40 T720,40 T1080,40 T1440,40 L1440,120 L0,120 Z"/>
+        </svg>
         <div class="container">
             <div class="footer-logo">
-                <a href="#home">Verde Speranza</a>
+                <a href="#home">
+                    <img src="public/logo_orizzontale_verde_speranza.svg" alt="Verde Speranza" class="footer-logo-image">
+                </a>
             </div>
             <div class="footer-contacts">
                 <h3>Contatti</h3>
@@ -215,12 +222,12 @@
                 <p>Telefono: +39 000 000 0000</p>
                 <p>Indirizzo: Sicilia, Italia</p>
             </div>
-            <div class="footer-links">
-                <a href="privacy-policy.html">Privacy Policy</a>
-                <a href="cookie-policy.html">Cookie Policy</a>
-            </div>
             <div class="footer-credits">
-                <p>Developed by <a href="https://www.sicilean.tech" target="_blank" rel="noopener noreferrer">Sicilean</a></p>
+                <p class="footer-credits-left"><img src="public/Logo_SIcilean.svg" alt="Sicilean" class="sicilean-logo"> Powered by <a href="https://www.sicilean.tech" target="_blank" rel="noopener noreferrer">Sicilean</a></p>
+                <div class="footer-credits-right">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="cookie-policy.html">Cookie Policy</a>
+                </div>
             </div>
         </div>
     </footer>

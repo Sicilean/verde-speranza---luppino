@@ -283,57 +283,6 @@ if (contactForm) {
 }
 
 // ============================================
-// UTILITY: Scroll to top button (opzionale)
-// ============================================
-let scrollToTopBtn = null;
-
-function createScrollToTopButton() {
-  scrollToTopBtn = document.createElement('button');
-  scrollToTopBtn.innerHTML = '↑';
-  scrollToTopBtn.className = 'scroll-to-top';
-  scrollToTopBtn.setAttribute('aria-label', 'Torna su');
-  scrollToTopBtn.style.cssText = `
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    background-color: var(--verde-speranza);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 24px;
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 998;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  `;
-  
-  scrollToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-  
-  document.body.appendChild(scrollToTopBtn);
-  
-  window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 300) {
-      scrollToTopBtn.style.opacity = '1';
-      scrollToTopBtn.style.visibility = 'visible';
-    } else {
-      scrollToTopBtn.style.opacity = '0';
-      scrollToTopBtn.style.visibility = 'hidden';
-    }
-  });
-}
-
-createScrollToTopButton();
-
-// ============================================
 // INIZIALIZZAZIONE
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
