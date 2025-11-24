@@ -1446,6 +1446,10 @@ section {
     font-size: 1.3rem;
   }
 
+  .btn-cta {
+    font-size: 0.95rem;
+  }
+
   .territorio-content {
     grid-template-columns: 1fr;
   }
