@@ -164,7 +164,7 @@ a {
 .hero {
   height: 50vh;
   min-height: 80vh;
-  background: linear-gradient(135deg, var(--verde-speranza) 0%, var(--verde-speranza-scuro) 100%);
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.8) 0%, rgba(0, 0, 0, 0.9) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -183,7 +183,7 @@ a {
   right: 0;
   bottom: 0;
   background: url('public/foto/gallery18.webp') center/cover;
-  opacity: 0.2;
+  opacity: 0.6;
   z-index: 0;
 }
 
