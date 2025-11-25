@@ -229,6 +229,7 @@ section {
   margin-bottom: var(--spacing-lg);
   position: relative;
   padding-bottom: var(--spacing-sm);
+  font-weight: 400;
 }
 
 .section-title::after {
