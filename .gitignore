@@ -1,0 +1,17 @@
+# File di ambiente con dati sensibili
+.env
+
+# File temporanei del sistema operativo
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# File di log
+*.log
+
+# File di backup
+*.bak
+*.backup
+

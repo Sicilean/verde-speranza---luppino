@@ -1566,3 +1566,12 @@ textarea:focus {
 .skip-link:focus {
   top: 0;
 }
+
+/* ============================================
+   NASCONDI BADGE reCAPTCHA
+   ============================================ */
+.grecaptcha-badge {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  display: none !important;
+}

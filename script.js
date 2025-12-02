@@ -77,21 +77,54 @@ window.addEventListener('scroll', () => {
 });
 
 // ============================================
-// FORM DI CONTATTO
+// FORM DI CONTATTO CON reCAPTCHA v3
 // ============================================
 const contactForm = document.getElementById('contact-form');
+const RECAPTCHA_SITE_KEY = '6Lc68R4sAAAAANqU1nHms0Sq_B-qif2L_LUYHg4c';
+
+// Funzione per verificare che reCAPTCHA sia caricato
+function waitForRecaptcha() {
+  return new Promise((resolve, reject) => {
+    if (typeof grecaptcha !== 'undefined' && grecaptcha.ready) {
+      grecaptcha.ready(() => {
+        if (typeof grecaptcha.execute !== 'undefined') {
+          resolve();
+        } else {
+          reject(new Error('reCAPTCHA execute non disponibile'));
+        }
+      });
+    } else {
+      // Aspetta che lo script si carichi
+      let attempts = 0;
+      const checkInterval = setInterval(() => {
+        attempts++;
+        if (typeof grecaptcha !== 'undefined' && grecaptcha.ready) {
+          grecaptcha.ready(() => {
+            if (typeof grecaptcha.execute !== 'undefined') {
+              clearInterval(checkInterval);
+              resolve();
+            }
+          });
+        } else if (attempts > 50) {
+          clearInterval(checkInterval);
+          reject(new Error('reCAPTCHA non caricato dopo 5 secondi'));
+        }
+      }, 100);
+    }
+  });
+}
 
 if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     // Raccogli dati del form
     const formData = {
-      nome: document.getElementById('nome').value,
-      cognome: document.getElementById('cognome').value,
-      email: document.getElementById('email').value,
-      telefono: document.getElementById('telefono').value,
-      messaggio: document.getElementById('messaggio').value
+      nome: document.getElementById('nome').value.trim(),
+      cognome: document.getElementById('cognome').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      telefono: document.getElementById('telefono').value.trim(),
+      messaggio: document.getElementById('messaggio').value.trim()
     };
     
     // Validazione base
@@ -107,24 +140,82 @@ if (contactForm) {
       return;
     }
     
-    // Simula invio (in produzione, qui andrebbe una chiamata API)
-    console.log('Dati del form:', formData);
+    // Disabilita il pulsante submit per evitare invii multipli
+    const submitBtn = contactForm.querySelector('.btn-submit');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Invio in corso...';
     
-    // Mostra messaggio di successo
-    alert('Grazie per il tuo messaggio! Ti contatteremo presto.');
-    
-    // Reset form
-    contactForm.reset();
-    
-    // Scroll alla sezione contatti per feedback visivo
-    const contattiSection = document.getElementById('contatti');
-    if (contattiSection) {
-      const navbarHeight = navbar.offsetHeight;
-      const targetPosition = contattiSection.offsetTop - navbarHeight;
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
+    // Esegui reCAPTCHA v3
+    try {
+      // Aspetta che reCAPTCHA sia pronto
+      await waitForRecaptcha();
+      
+      const recaptchaToken = await grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'});
+      formData.recaptchaToken = recaptchaToken;
+      
+      // Salva il token nel campo nascosto
+      document.getElementById('recaptcha-token').value = recaptchaToken;
+      
+      // Invia i dati al server PHP
+      try {
+        console.log('Invio dati del form...', formData);
+        
+        const response = await fetch('send-email.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+        
+        console.log('Risposta server:', response.status, response.statusText);
+        
+        // Verifica se la risposta è JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          const text = await response.text();
+          console.error('Risposta non JSON:', text);
+          throw new Error('Risposta del server non valida');
+        }
+        
+        const result = await response.json();
+        console.log('Risultato:', result);
+        
+        if (result.success) {
+          // Mostra messaggio di successo
+          alert(result.message || 'Grazie per il tuo messaggio! Ti contatteremo presto.');
+          
+          // Reset form
+          contactForm.reset();
+          
+          // Scroll alla sezione contatti per feedback visivo
+          const contattiSection = document.getElementById('contatti');
+          if (contattiSection) {
+            const navbarHeight = navbar.offsetHeight;
+            const targetPosition = contattiSection.offsetTop - navbarHeight;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }
+        } else {
+          console.error('Errore dal server:', result);
+          alert(result.message || 'Si è verificato un errore durante l\'invio. Riprova più tardi.');
+        }
+      } catch (fetchError) {
+        console.error('Errore invio form:', fetchError);
+        alert('Si è verificato un errore durante l\'invio del messaggio. Controlla la console per i dettagli o contattaci direttamente a info@verde-speranza.com');
+      } finally {
+        // Riabilita il pulsante
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    } catch (error) {
+      console.error('Errore reCAPTCHA:', error);
+      alert('Si è verificato un errore durante la verifica. Riprova più tardi.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
     }
   });
 }
@@ -247,15 +338,6 @@ const imageObserver = new IntersectionObserver((entries) => {
 
 images.forEach(img => imageObserver.observe(img));
 
-// ============================================
-// GESTIONE ERRORI IMMAGINI
-// ============================================
-document.querySelectorAll('img').forEach(img => {
-  img.addEventListener('error', function() {
-    this.src = 'https://via.placeholder.com/800x600?text=Immagine+non+disponibile';
-    this.alt = 'Immagine non disponibile';
-  });
-});
 
 // ============================================
 // ACCESSIBILITÀ: Skip to main content

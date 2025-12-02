@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="public/logo_verde_speranza.svg">
+    <link rel="icon" type="image/png" href="public/logo_verde_speranza.svg">
+    <link rel="apple-touch-icon" href="public/logo_verde_speranza.svg">
+    
     <meta name="description" content="Verde Speranza: tradizione di 3 generazioni nella produzione di prodotti IGP siciliani. Olio d'oliva extravergine, limoni, arance e mandarini di qualità certificata. Coltivati con passione in Sicilia.">
     <meta name="keywords" content="olio d'oliva siciliano, prodotti IGP, agrumi siciliani, limoni IGP, arance IGP, mandarini IGP, olio extravergine, Sicilia, agricoltura biologica, tradizione siciliana">
     <meta name="author" content="Verde Speranza - Luppino Antonella">
@@ -35,6 +41,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,100..900;1,100..900&family=Inter+Tight:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Google reCAPTCHA v3 -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6Lc68R4sAAAAANqU1nHms0Sq_B-qif2L_LUYHg4c" async defer></script>
     
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -615,6 +624,7 @@
                             <label for="messaggio">Messaggio *</label>
                             <textarea id="messaggio" name="messaggio" rows="5" required></textarea>
                         </div>
+                        <input type="hidden" id="recaptcha-token" name="recaptcha-token">
                         <button type="submit" class="btn-submit">Invia Messaggio</button>
                     </form>
                 </div>
@@ -651,7 +661,7 @@
             <div class="footer-contacts">
                 <h3>Contatti</h3>
                 <p><strong>VERDE SPERANZA</strong></p>
-                <p>Email: //</p>
+                <p>Email: info@verde-speranza.com</p>
                 <p>Telefono: +39 388 655 4318</p>
                 <p>P.IVA: 02921810814</p>
             </div>
